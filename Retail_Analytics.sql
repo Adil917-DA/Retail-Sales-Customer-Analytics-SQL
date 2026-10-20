@@ -397,23 +397,7 @@ ORDER BY Net_Revenue DESC;
 -- orders, net spend, and each customer's percentage contribution to total delivered net revenue. 
 SOLUTION:
 
-SELECT
-customer_name,
-delivered_orders,
-net_spend,
-ROUND(100.0 * net_spend / SUM(net_spend) OVER (),2) AS revenue_contribution_percent
-FROM (SELECT C.customer_id,C.customer_name,
-COUNT(DISTINCT O.order_id) AS delivered_orders,
-SUM(Oi.quantity*Oi.unit_price_at_sale*(1 - Oi.discount_rate)) AS net_spending
-FROM Customers C
-JOIN Orders O
-ON C.customer_id = O.customer_id
-JOIN Order_Items OI
-ON O.order_id = OI.order_id
-WHERE O.order_status = 'Delivered'
-GROUP BY C.customer_id, C.customer_name) AS CustomerSpend
-ORDER BY net_spend DESC
-LIMIT 3;
+
 
 SELECT
 customer_name,
